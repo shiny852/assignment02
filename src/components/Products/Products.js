@@ -327,8 +327,12 @@ const Products = () => {
             >
               <SortIcon />
             </button>
-            <span>Sort By</span>&nbsp;
-            <select onChange={handleSortBy} value={sortBy}>
+            <span className={classes['sort-span']}>Sort By</span>&nbsp;
+            <select
+              onChange={handleSortBy}
+              value={sortBy}
+              className={classes['sort-select']}
+            >
               <option value='alphabetically'>Alphabet</option>
               <option value='byPrice'>Price</option>
             </select>

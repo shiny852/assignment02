@@ -51,6 +51,19 @@
   cursor: pointer;
 }
 
+.sort-span {
+  font-size: 22px;
+  color: #9b9b9b;
+}
+
+.sort-select {
+  background-color: transparent;
+  border: 0;
+  font-size: 22px;
+  font-weight: 400;
+  color: black;
+}
+
 .responsive-icon {
   display: none;
 }
