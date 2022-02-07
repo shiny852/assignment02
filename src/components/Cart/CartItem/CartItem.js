@@ -17,6 +17,7 @@ const CartItem = (props) => {
       <div className={classes['image-wrapper']}>
         <img
           src={props.image.src}
+          rel='preconnect'
           alt={props.image.alt}
           className={classes.image}
         />

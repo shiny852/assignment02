@@ -1,8 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, lazy, Suspense } from 'react';
 
-import ProductItemForm from './ProductItemForm/ProductItemForm';
 import classes from './ProductItem.module.css';
 import CartContext from '../../../store/cart-context';
+
+const ProductItemForm = lazy(() => import('./ProductItemForm/ProductItemForm'));
 
 const ProductItem = (props) => {
   const cartCtx = useContext(CartContext);
@@ -34,13 +35,20 @@ const ProductItem = (props) => {
           {props.bestseller && (
             <div className={classes.bestseller}>Best Seller</div>
           )}
+
           <img
             src={props.image.src}
             alt={props.image.alt}
+            rel='preconnect'
             className={classes.image}
           />
-
-          <ProductItemForm style={style} onAddToCart={addToCartHandler} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <ProductItemForm
+              style={style}
+              onAddToCart={addToCartHandler}
+              id={props.id}
+            />
+          </Suspense>
         </div>
         <div className={classes.category}>{props.category}</div>
         <div className={classes.name}>{props.name}</div>

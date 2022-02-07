@@ -1,8 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, lazy, Suspense } from 'react';
 
 import CartContext from '../../../store/cart-context';
-import FeaturedItemForm from './FeaturedItemForm/FeaturedItemForm';
 import classes from './FeaturedProduct.module.css';
+
+const FeaturedItemForm = lazy(() =>
+  import('./FeaturedItemForm/FeaturedItemForm'),
+);
 
 const FeaturedProduct = ({ item }) => {
   const cartCtx = useContext(CartContext);
@@ -22,21 +25,25 @@ const FeaturedProduct = ({ item }) => {
     <section>
       <div className={classes['featured-topbar']}>
         <h3>{item.name}</h3>
-        <FeaturedItemForm
-          responsiveNone
-          onAddToCart={addToCartHandler}
-          className={classes['responsive-none']}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <FeaturedItemForm
+            responsiveNone
+            onAddToCart={addToCartHandler}
+            className={classes['responsive-none']}
+          />
+        </Suspense>
       </div>
       <div className={classes['featured-image-wrapper']}>
-        <img src={item.image.src} alt={item.image.alt} />
+        <img src={item.image.src} alt={item.image.alt} rel='preconnect' />
       </div>
-      <FeaturedItemForm
-        responsive
-        onAddToCart={addToCartHandler}
-        className={classes['responsive-item']}
-        id={item.id}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <FeaturedItemForm
+          responsive
+          onAddToCart={addToCartHandler}
+          className={classes['responsive-item']}
+          id={item.id}
+        />
+      </Suspense>
       <div className={classes['featured-content']}>
         <div className={classes['content-left']}>
           <span className={classes.about}>About the {item.name}</span>
@@ -52,7 +59,12 @@ const FeaturedProduct = ({ item }) => {
           <span className={classes.recommendations}>People also buy</span>
           <div className={classes['recommendations-images-box']}>
             {item.details.recomendations.map((image, index) => (
-              <img src={image.src} alt={image.alt} key={index} />
+              <img
+                src={image.src}
+                rel='preconnect'
+                alt={image.alt}
+                key={index}
+              />
             ))}
           </div>
           <span className={classes.details}>Details</span>

@@ -1,11 +1,13 @@
-import { useContext } from 'react';
+import { useContext, lazy, Suspense } from 'react';
 
 import Dropdown from '../UI/Dropdown/Dropdown';
-import CartItem from './CartItem/CartItem';
-import CloseIcon from './CartIcons/CloseIcon';
-
 import classes from './Cart.module.css';
 import CartContext from '../../store/cart-context';
+
+const CartItem = lazy(() => import('./CartItem/CartItem'));
+const CloseIcon = lazy(() => import('./CartIcons/CloseIcon'));
+
+const renderLoader = () => <p>Loading</p>;
 
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
@@ -28,29 +30,34 @@ const Cart = (props) => {
 
   const cartItems = (
     <ul className={classes['cart-items']}>
-      {cartCtx.items.map((item, index) => (
-        <CartItem
-          key={index.toString()}
-          name={item.name}
-          amount={item.amount}
-          price={item.price}
-          image={item.image}
-          onRemove={cartItemRemoveHandler.bind(null, item.id)}
-          onAdd={cartItemAddHandler.bind(null, item)}
-        />
-      ))}
+      <Suspense fallback={renderLoader()}>
+        {cartCtx.items.map((item, index) => (
+          <CartItem
+            key={index.toString()}
+            name={item.name}
+            amount={item.amount}
+            price={item.price}
+            image={item.image}
+            onRemove={cartItemRemoveHandler.bind(null, item.id)}
+            onAdd={cartItemAddHandler.bind(null, item)}
+          />
+        ))}
+      </Suspense>
     </ul>
   );
 
   return (
     <Dropdown>
       <div className={classes['close-icon']}>
-        <button onClick={props.onClose} name='aria-label'>
-          <CloseIcon />
+        <button onClick={props.onClose} aria-label='close-icon'>
+          <Suspense fallback={renderLoader()}>
+            <CloseIcon />
+          </Suspense>
         </button>
       </div>
 
       {cartItems}
+
       <div className={classes.total}>
         <span className={classes['total-label']}>Total Amount </span>
         <span className={classes['total-value']}>{totalAmount}</span>

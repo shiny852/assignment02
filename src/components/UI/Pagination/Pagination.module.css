@@ -34,8 +34,7 @@
 
 .arrow-icon {
   position: relative;
-  /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
-  /* By using an em scale, the arrows will size with the font */
+
   display: inline-block;
   width: 0.4em;
   height: 0.4em;
@@ -45,7 +44,6 @@
 }
 
 .left {
-  /* transform: rotate(-135deg) translate(-50%);*/
   transform: rotate(-135deg);
 }
 

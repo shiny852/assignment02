@@ -1,10 +1,13 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import ProductItem from '../ProductItem/ProductItem';
+import React, { useState, useMemo, useEffect, lazy, Suspense } from 'react';
 
 import classes from './AvailableProducts.module.css';
-import Pagination from '../../UI/Pagination/Pagination';
+
+const renderLoader = () => <p>loading...</p>;
 
 let PageSize = 6;
+
+const ProductItem = lazy(() => import('../ProductItem/ProductItem'));
+const Pagination = lazy(() => import('../../UI/Pagination/Pagination'));
 
 const AvailableProducts = ({ list }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,14 +36,18 @@ const AvailableProducts = ({ list }) => {
 
   return (
     <section className={classes.products}>
-      <ul className={classes['products-list']}>{productsList}</ul>
-      <Pagination
-        className={classes['pagination-bar']}
-        currentPage={currentPage}
-        totalCount={list.length}
-        pageSize={PageSize}
-        onPageChange={(page) => setCurrentPage(page)}
-      />
+      <ul className={classes['products-list']}>
+        <Suspense fallback={renderLoader()}>{productsList}</Suspense>
+      </ul>
+      <Suspense fallback={renderLoader()}>
+        <Pagination
+          className={classes['pagination-bar']}
+          currentPage={currentPage}
+          totalCount={list.length}
+          pageSize={PageSize}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
+      </Suspense>
     </section>
   );
 };

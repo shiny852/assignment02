@@ -1,17 +1,23 @@
-import { Fragment } from 'react';
-
-import LogoIcon from './HeaderCartButton/LogoIcon/LogoIcon';
+import { Fragment, lazy, Suspense } from 'react';
 
 import classes from './Header.module.css';
-import HeaderCartButton from './HeaderCartButton/HeaderCartButton';
+
+const LogoIcon = lazy(() => import('./HeaderCartButton/LogoIcon/LogoIcon'));
+const HeaderCartButton = lazy(() =>
+  import('./HeaderCartButton/HeaderCartButton'),
+);
 
 const Header = (props) => {
   return (
     <Fragment>
       <header className={classes.header}>
         <div className={classes['header-items']}>
-          <LogoIcon />
-          <HeaderCartButton onClick={props.onShowCart} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <LogoIcon />
+          </Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
+            <HeaderCartButton onClick={props.onShowCart} />
+          </Suspense>
         </div>
       </header>
     </Fragment>
