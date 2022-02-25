@@ -1,16 +1,11 @@
-import { Fragment, useState, useEffect, lazy, Suspense } from 'react';
+import { Fragment, useState, useEffect } from 'react';
+import FeaturedProduct from './FeaturedProduct/FeaturedProduct';
+import AvailableProducts from './AvailableProducts/AvailableProducts';
+import ProductsFilters from './ProductsFilters/ProductsFilters';
+import SortIcon from './SortIcon/SortIcon';
+import ProductsFiltersIcon from './ProductsFilters/ProductsFiltersIcon/ProductsFiltersIcon';
 
 import classes from './Products.module.css';
-
-const FeaturedProduct = lazy(() => import('./FeaturedProduct/FeaturedProduct'));
-const ProductsFilters = lazy(() => import('./ProductsFilters/ProductsFilters'));
-const AvailableProducts = lazy(() =>
-  import('./AvailableProducts/AvailableProducts'),
-);
-const SortIcon = lazy(() => import('./SortIcon/SortIcon'));
-const ProductsFiltersIcon = lazy(() =>
-  import('./ProductsFilters/ProductsFiltersIcon/ProductsFiltersIcon'),
-);
 
 const Products = () => {
   const [fetchedProducts, setFetchedProducts] = useState([]);
@@ -163,11 +158,10 @@ const Products = () => {
 
   return (
     <Fragment>
-      <Suspense fallback={<div>Loading...</div>}>
-        {featuredProducts.map((item, index) => (
-          <FeaturedProduct item={item} key={index} />
-        ))}
-      </Suspense>
+      {featuredProducts.map((item, index) => (
+        <FeaturedProduct item={item} key={index} />
+      ))}
+
       <div className={classes['products-topbar']}>
         <div className={classes['topbar-heading']}>
           <h3>Products </h3> &nbsp;/&nbsp; <span> Steps</span>
@@ -180,9 +174,7 @@ const Products = () => {
               onClick={handleOnSort}
               aria-label='sort-icon'
             >
-              <Suspense fallback={<div>Loading...</div>}>
-                <SortIcon />
-              </Suspense>
+              <SortIcon />
             </button>
             <span className={classes['sort-span']}>Sort By</span>&nbsp;
             <select
@@ -200,37 +192,31 @@ const Products = () => {
             onClick={showFiltersHandler}
             aria-label='products-filters'
           >
-            <Suspense fallback={<div>Loading...</div>}>
-              <ProductsFiltersIcon />
-            </Suspense>
+            <ProductsFiltersIcon />
           </button>
         </div>
       </div>
       <div className={classes['products-main']}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <ProductsFilters
+          responsiveNone
+          products={products}
+          changeChecked={handleChangeChecked}
+          priceRange={priceRange}
+          selectPriceRange={handleSelectPriceRange}
+        />
+
+        {filtersAreShown && (
           <ProductsFilters
-            responsiveNone
+            responsive
             products={products}
             changeChecked={handleChangeChecked}
             priceRange={priceRange}
             selectPriceRange={handleSelectPriceRange}
+            onClose={hideFiltersHandler}
           />
-        </Suspense>
-        {filtersAreShown && (
-          <Suspense fallback={<div>Loading...</div>}>
-            <ProductsFilters
-              responsive
-              products={products}
-              changeChecked={handleChangeChecked}
-              priceRange={priceRange}
-              selectPriceRange={handleSelectPriceRange}
-              onClose={hideFiltersHandler}
-            />
-          </Suspense>
         )}
-        <Suspense fallback={<div>Loading...</div>}>
-          <AvailableProducts list={list} />
-        </Suspense>
+
+        <AvailableProducts list={list} />
       </div>
     </Fragment>
   );

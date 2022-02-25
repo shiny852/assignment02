@@ -1,8 +1,6 @@
-import { useRef, useState, lazy, Suspense } from 'react';
-
+import { useRef, useState } from 'react';
+import Input from '../../../UI/Input/Input';
 import classes from './ProductItemForm.module.css';
-
-const Input = lazy(() => import('../../../UI/Input/Input'));
 
 const ProductItemForm = (props) => {
   const [amountIsValid, setAmountIsValid] = useState(true);
@@ -29,19 +27,18 @@ const ProductItemForm = (props) => {
   return (
     <form className={classes.form} style={props.style} onSubmit={submitHandler}>
       <button>Add to cart</button>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Input
-          ref={amountInputRef}
-          input={{
-            id: 'amount_' + props.id,
-            type: 'number',
-            min: '1',
-            max: '5',
-            step: '1',
-            defaultValue: '1',
-          }}
-        />
-      </Suspense>
+
+      <Input
+        ref={amountInputRef}
+        input={{
+          id: 'amount_' + props.id,
+          type: 'number',
+          min: '1',
+          max: '5',
+          step: '1',
+          defaultValue: '1',
+        }}
+      />
 
       {!amountIsValid && <p>Please enter a valid amount (1-5)</p>}
     </form>

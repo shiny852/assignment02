@@ -1,9 +1,8 @@
-import { useContext, lazy, Suspense } from 'react';
+import { useContext } from 'react';
+import CartIcon from '../../../Cart/CartIcons/CartIcon';
 
 import CartContext from '../../../../store/cart-context';
 import classes from './HeaderCartButton.module.css';
-
-const CartIcon = lazy(() => import('../../../Cart/CartIcons/CartIcon'));
 
 const HeaderCartButton = (props) => {
   const cartCtx = useContext(CartContext);
@@ -19,9 +18,7 @@ const HeaderCartButton = (props) => {
       aria-label='cart-icon'
     >
       <span className={classes.icon}>
-        <Suspense fallback={<div>Loading...</div>}>
-          <CartIcon />
-        </Suspense>
+        <CartIcon />
       </span>
       <span className={classes.badge}>{numberOfCartItems}</span>
     </button>

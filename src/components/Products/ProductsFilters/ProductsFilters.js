@@ -1,14 +1,9 @@
-import { lazy, Suspense } from 'react';
+import React from 'react';
 import Modal from '../../UI/Modal/Modal';
+import CheckboxProton from '../../UI/CheckboxProton/CheckboxProton';
+import PriceRangeCheckBox from '../../UI/PriceRangeCheckbox/PriceRangeCheckbox';
+import CloseIcon from '../../Cart/CartIcons/CloseIcon';
 import classes from './ProductsFilters.module.css';
-
-const CheckboxProton = lazy(() =>
-  import('../../UI/CheckboxProton/CheckboxProton'),
-);
-const PriceRangeCheckBox = lazy(() =>
-  import('../../UI/PriceRangeCheckbox/PriceRangeCheckbox'),
-);
-const CloseIcon = lazy(() => import('../../Cart/CartIcons/CloseIcon'));
 
 const ProductsFilters = ({
   products,
@@ -24,31 +19,27 @@ const ProductsFilters = ({
       <div className={classes['multiple-filters']}>
         <h3 className={classes['category-title']}>Category</h3>
         <ul className={classes['category-body']}>
-          <Suspense fallback={<div>Loading...</div>}>
-            {products.map((product, index) => (
-              <CheckboxProton
-                index={index}
-                key={product.id}
-                product={product}
-                changeChecked={changeChecked}
-              />
-            ))}
-          </Suspense>
+          {products.map((product, index) => (
+            <CheckboxProton
+              index={index}
+              key={product.id}
+              product={product}
+              changeChecked={changeChecked}
+            />
+          ))}
         </ul>
       </div>
       <div className={classes['single-filters']}>
         <h3>Price range</h3>
         <ul>
-          <Suspense fallback={<div>Loading...</div>}>
-            {priceRange.map((item, index) => (
-              <PriceRangeCheckBox
-                index={index}
-                key={item.id}
-                item={item}
-                selectPriceRange={selectPriceRange}
-              />
-            ))}
-          </Suspense>
+          {priceRange.map((item, index) => (
+            <PriceRangeCheckBox
+              index={index}
+              key={item.id}
+              item={item}
+              selectPriceRange={selectPriceRange}
+            />
+          ))}
         </ul>
       </div>
     </section>
@@ -61,38 +52,32 @@ const ProductsFilters = ({
           <div className={classes['filters-header']}>
             <h3>Filter</h3>
             <button onClick={onClose} aria-label='close-filters-icon'>
-              <Suspense fallback={<div>Loading...</div>}>
-                <CloseIcon />
-              </Suspense>
+              <CloseIcon />
             </button>
           </div>
           <h3 className={classes['category-title']}>Category</h3>
           <ul className={classes['category-body']}>
-            <Suspense fallback={<div>Loading...</div>}>
-              {products.map((product, index) => (
-                <CheckboxProton
-                  index={index}
-                  key={product.id}
-                  product={product}
-                  changeChecked={changeChecked}
-                />
-              ))}{' '}
-            </Suspense>
+            {products.map((product, index) => (
+              <CheckboxProton
+                index={index}
+                key={product.id}
+                product={product}
+                changeChecked={changeChecked}
+              />
+            ))}
           </ul>
         </div>
         <div className={classes['single-filters']}>
           <h3>Price range</h3>
           <ul>
-            <Suspense fallback={<div>Loading...</div>}>
-              {priceRange.map((item, index) => (
-                <PriceRangeCheckBox
-                  index={index}
-                  key={item.id}
-                  item={item}
-                  selectPriceRange={selectPriceRange}
-                />
-              ))}{' '}
-            </Suspense>
+            {priceRange.map((item, index) => (
+              <PriceRangeCheckBox
+                index={index}
+                key={item.id}
+                item={item}
+                selectPriceRange={selectPriceRange}
+              />
+            ))}
           </ul>
         </div>
       </section>

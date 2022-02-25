@@ -1,11 +1,7 @@
-import React, { useContext, lazy, Suspense } from 'react';
-
+import React, { useContext } from 'react';
+import FeaturedItemForm from './FeaturedItemForm/FeaturedItemForm';
 import CartContext from '../../../store/cart-context';
 import classes from './FeaturedProduct.module.css';
-
-const FeaturedItemForm = lazy(() =>
-  import('./FeaturedItemForm/FeaturedItemForm'),
-);
 
 const FeaturedProduct = ({ item }) => {
   const cartCtx = useContext(CartContext);
@@ -25,25 +21,24 @@ const FeaturedProduct = ({ item }) => {
     <section>
       <div className={classes['featured-topbar']}>
         <h3>{item.name}</h3>
-        <Suspense fallback={<div>Loading...</div>}>
-          <FeaturedItemForm
-            responsiveNone
-            onAddToCart={addToCartHandler}
-            className={classes['responsive-none']}
-          />
-        </Suspense>
+
+        <FeaturedItemForm
+          responsiveNone
+          onAddToCart={addToCartHandler}
+          className={classes['responsive-none']}
+        />
       </div>
       <div className={classes['featured-image-wrapper']}>
         <img src={item.image.src} alt={item.image.alt} rel='preconnect' />
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <FeaturedItemForm
-          responsive
-          onAddToCart={addToCartHandler}
-          className={classes['responsive-item']}
-          id={item.id}
-        />
-      </Suspense>
+
+      <FeaturedItemForm
+        responsive
+        onAddToCart={addToCartHandler}
+        className={classes['responsive-item']}
+        id={item.id}
+      />
+
       <div className={classes['featured-content']}>
         <div className={classes['content-left']}>
           <span className={classes.about}>About the {item.name}</span>

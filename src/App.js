@@ -1,12 +1,10 @@
-import { useState, lazy, Suspense } from 'react';
-
+import { useState } from 'react';
 import CartProvider from './store/CartProvider';
+import Cart from './components/Cart/Cart';
+import Header from './components/Layout/Header/Header';
+import Products from './components/Products/Products';
 
 import '@fontsource/archivo';
-
-const Cart = lazy(() => import('./components/Cart/Cart'));
-const Header = lazy(() => import('./components/Layout/Header/Header'));
-const Products = lazy(() => import('./components/Products/Products'));
 
 function App() {
   const [cartIsShown, setCartIsShown] = useState(false);
@@ -21,19 +19,12 @@ function App() {
 
   return (
     <CartProvider>
-      {cartIsShown && (
-        <Suspense fallback={<p>Loading...</p>}>
-          <Cart onClose={hideCartHandler} />
-        </Suspense>
-      )}
-      <Suspense fallback={<p>Loading...</p>}>
-        <Header onShowCart={showCartHandler} />
-      </Suspense>
+      {cartIsShown && <Cart onClose={hideCartHandler} />}
+
+      <Header onShowCart={showCartHandler} />
 
       <main>
-        <Suspense fallback={<p>Loading...</p>}>
-          <Products />
-        </Suspense>
+        <Products />
       </main>
     </CartProvider>
   );

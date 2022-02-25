@@ -1,13 +1,10 @@
-import { useContext, lazy, Suspense } from 'react';
+import { useContext } from 'react';
 
 import Dropdown from '../UI/Dropdown/Dropdown';
 import classes from './Cart.module.css';
 import CartContext from '../../store/cart-context';
-
-const CartItem = lazy(() => import('./CartItem/CartItem'));
-const CloseIcon = lazy(() => import('./CartIcons/CloseIcon'));
-
-const renderLoader = () => <p>Loading</p>;
+import CloseIcon from './CartIcons/CloseIcon';
+import CartItem from './CartItem/CartItem';
 
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
@@ -30,19 +27,17 @@ const Cart = (props) => {
 
   const cartItems = (
     <ul className={classes['cart-items']}>
-      <Suspense fallback={renderLoader()}>
-        {cartCtx.items.map((item, index) => (
-          <CartItem
-            key={index.toString()}
-            name={item.name}
-            amount={item.amount}
-            price={item.price}
-            image={item.image}
-            onRemove={cartItemRemoveHandler.bind(null, item.id)}
-            onAdd={cartItemAddHandler.bind(null, item)}
-          />
-        ))}
-      </Suspense>
+      {cartCtx.items.map((item, index) => (
+        <CartItem
+          key={index.toString()}
+          name={item.name}
+          amount={item.amount}
+          price={item.price}
+          image={item.image}
+          onRemove={cartItemRemoveHandler.bind(null, item.id)}
+          onAdd={cartItemAddHandler.bind(null, item)}
+        />
+      ))}
     </ul>
   );
 
@@ -50,9 +45,7 @@ const Cart = (props) => {
     <Dropdown>
       <div className={classes['close-icon']}>
         <button onClick={props.onClose} aria-label='close-icon'>
-          <Suspense fallback={renderLoader()}>
-            <CloseIcon />
-          </Suspense>
+          <CloseIcon />
         </button>
       </div>
 
